@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,6 +29,8 @@
         <th width=15% class="text-center">입사일</th>
         <th width=15% class="text-center">급여</th>
       </tr>
+      <c:forEach var="vo" items="${list }">
+      
       <tr>
         <th width=15% class="text-center">${vo.eptno }</th>
         <th width=15% class="text-center">${vo.ename }</th>
@@ -35,6 +38,7 @@
         <th width=15% class="text-center">${vo.hiredate }</th>
         <th width=15% class="text-center">${vo.sal }</th>
       </tr>
+      </c:forEach>
       <tr>
         <input type=button value="뭐지">
       </tr>
