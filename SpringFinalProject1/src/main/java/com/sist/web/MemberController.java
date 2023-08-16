@@ -29,9 +29,9 @@ public class MemberController {
 	{
 		vo.setPhone(vo.getPhone1()+"-"+vo.getPhone());
 		String enPwd=encoder.encode(vo.getPwd());
-		String enId=encoder.encode(vo.getId());
+		//String enId=encoder.encode(vo.getId());
 		
-		vo.setId(enId);
+		//vo.setId(enId);
 		vo.setPwd(enPwd); // 암호화시키는 과정
 		dao.memberInsert(vo);
 		return "redirect:../main/main.do";
