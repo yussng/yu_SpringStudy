@@ -23,4 +23,22 @@ public class FoodDAO {
 	{
 		return mapper.foodCategoryInfoData(cno);
 	}
+	
+	// <select id="foodFindData" resultType="FoodVO" parameterType="hashmap"> // 메소드명, 리턴형, 매개변수
+	public List<FoodVO> foodFindData(Map map)
+	{
+		return mapper.foodFindData(map);
+	}
+	// <select id="foodFindTotalPage" resultType="int" parameterType="hashmap">
+	public int foodFindTotalPage(Map map)
+	{
+		return mapper.foodFindTotalPage(map);
+	}
+	/*@Select("SELECT fno,name,phone,address,type,time,parking,menu,price,score "
+			+ "FROM food_location "
+			+ "WHERE fno=#{fno}")*/
+	public FoodVO foodDetailData(int fno)
+	{
+		return mapper.foodDetailData(fno);
+	}
 }
