@@ -74,7 +74,7 @@
         <div style="height: 20px"></div>
         <table class="table">
           <tr> 
-            <td>
+            <td> 
               <table class="table" v-for="rvo in reply_list">
                 <tr>
                   <td class="text-left">
