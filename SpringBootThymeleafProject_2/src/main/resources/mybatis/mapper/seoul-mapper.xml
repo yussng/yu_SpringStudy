@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.sist.web.mapper.SeoulMapper">
+ <!-- public List<CategoryVO> categoryListData() -->
+   <select id="seoulFindData" resultType="SeoulLocationVO" parameterType="hashmap">
+    SELECT no,title,poster
+    FROM seoul_location 
+    WHERE address LIKE CONCAT('%',#{address},'%')
+    ORDER BY no ASC
+    LIMIT #{start} , 12
+   </select>
+   <select id="seoulFindTotalPage" resultType="int" parameterType="string">
+     SELECT CEIL(COUNT(*)/12.0) 
+     FROM seoul_location WHERE address LIKE CONCAT('%',#{address},'%')
+   </select>
+ </mapper>
