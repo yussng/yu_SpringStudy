@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
+<title>Insert title here</title>
 <title>Insert title here</title>
 <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css"/>
 <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css"/>
@@ -25,28 +26,26 @@
      <c:if test="${sessionScope.id==null }">
       <ul class="inline">
         <li>ID:<input type="text" size=15 class="input-sm" ref="login_id" v-model="login_id"></li>
-        <li>PWD:<input type="password" size=15 class="input-sm" ref="login_pwd" v-model="login_pwd"></li>
-        <li><input type=button value="로그인" class="input-sm" @click="login()">
+        <li>PW:<input type="password" size=15 class="input-sm" ref="login_pwd" v-model="login_pwd"></li>
+        <li><input type=button value="로그인" class="btn-sm" @click="login()">
       </ul>
       <ul class="inline">
-        <li>ID저장:<input type="checkbox" ref="ck" v-model="ck"></li>
+        <li>아이디 저장:<input type="checkbox" ref="ck" v-model="ck"></li>
+        <li>현재 시간:${today }</li>
       </ul>
      </c:if>
-      
      <c:if test="${sessionScope.id!=null }">
       <ul class="inline">
         <li>${sessionScope.name}님 로그인중입니다</li>
         <li><input type=button value="로그아웃" class="btn-sm" @click="logout()">
       </ul>
      </c:if>
-     
     </div>
-    
   </header>
 </div>
 <div class="wrapper row2">
   <nav id="mainav" class="clear"> 
-  
+    
     <ul class="clear">
       <li class="active"><a href="../main/main.do">HOME</a></li>
       <li><a class="drop" href="#">회원</a>
@@ -61,11 +60,11 @@
           <li><a href="pages/gallery.html">회원수정</a></li>
           <li><a href="pages/full-width.html">회원탈퇴</a></li>
         </ul>
-      </li> -->
+      </li>-->
       <li><a class="drop" href="#">맛집</a>
         <ul>
-          <li><a href="../food/food_find.do">지역별 맛집찾기</a></li>
-          <li><a href="../food/food_list.do">맛집 추천</a></li>
+          <li><a href="../food/food_find.do">지역별 맛집 찾기</a></li>
+          <li><a href="../recommand/recommand.do">맛집 추천</a></li>
           <li><a href="pages/sidebar-left.html">맛집 예약</a></li>
         </ul>
       </li>
@@ -96,7 +95,7 @@
   </nav>
 </div>
 <script>
-  new Vue({
+  let header=new Vue({
 	  el:'#header',
 	  data:{
 		  login_id:'${id}',
@@ -105,12 +104,13 @@
 	  },
 	  methods:{
 		  logout:function(){
-			  axios.get('http://localhost/web/member/logout_vue.do')
-			  .then(res=>{
-				  location.href="../main/main.do"
-			  })
+			axios.get('http://localhost/web/member/logout_vue.do')
+			.then(res=>{
+				location.href="../main/main.do"
+			})
 		  },
 		  login:function(){
+			  //alert("aaa")
 			  if(this.login_id==='')
 			  {
 				  alert("아이디를 입력하세요")
@@ -121,9 +121,9 @@
 			  {
 				  alert("비밀번호를 입력하세요")
 				  this.$refs.login_pwd.focus();
-				  return;
+				  return
 			  }
-				  axios.post('http://localhost/web/member/login_ok_vue.do',null,{
+			     axios.post('http://localhost/web/member/login_ok_vue.do',null,{
 					  params:{
 						  id:this.login_id,
 						  pwd:this.login_pwd,
@@ -140,9 +140,9 @@
 					  }
 					  else if(res.data==='NOPWD')
 					  {
-						 alert("비밀번호가 틀립니다")
-						 this.login_pwd=''
-						 this.$refs.login_pwd.focus()
+						  alert("비밀번호가 틀립니다")
+						  this.login_pwd=''
+						  this.$refs.login_pwd.focus()
 					  }
 					  else
 					  {
@@ -150,6 +150,7 @@
 						  location.href="../main/main.do"
 					  }
 				  })
+			  
 		  }
 	  }
   })

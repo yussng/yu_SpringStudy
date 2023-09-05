@@ -5,11 +5,17 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+/*
+ *     tiles
+ *     -----
+ *       
+ */
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.sist.vo.MemberVO;
 import com.sist.dao.*;
-@Controller // 페이지 관리 / 화면 조정
+import com.sist.mail.MailManager;
+@Controller // 페이지 관리 
 public class MemberController {
 	@Autowired
 	private MemberDAO dao;
@@ -17,23 +23,28 @@ public class MemberController {
 	@Autowired
 	private BCryptPasswordEncoder encoder;
 	
-	@GetMapping("member/join.do")
-	public String member_join(Model model)
-	{
-		
-		model.addAttribute("main_jsp", "../member/join.jsp");
-		return "main/main";
-	}
-	@PostMapping("member/join_ok.do")
-	public String member_join_ok(MemberVO vo)
-	{
-		vo.setPhone(vo.getPhone1()+"-"+vo.getPhone());
-		String enPwd=encoder.encode(vo.getPwd());
-		//String enId=encoder.encode(vo.getId());
-		
-		//vo.setId(enId);
-		vo.setPwd(enPwd); // 암호화시키는 과정
-		dao.memberInsert(vo);
-		return "redirect:../main/main.do";
-	}
+	@Autowired
+	private MailManager mgr;
+	
+    @GetMapping("member/join.do")
+    public String member_join(Model model)
+    {
+    	
+    	model.addAttribute("main_jsp", "../member/join.jsp");
+    	return "main/main";
+    }
+    @PostMapping("member/join_ok.do")
+    public String member_join_ok(MemberVO vo)
+    {
+    	System.out.println("id:"+vo.getId());
+    	vo.setPhone(vo.getPhone1()+"-"+vo.getPhone());
+    	String enPwd=encoder.encode(vo.getPwd());
+    	//String enId=encoder.encode(vo.getId());
+    	
+    	//vo.setId(enId);
+    	vo.setPwd(enPwd);
+    	dao.memberInsert(vo);
+    	mgr.naverMailSend(vo, 1);
+    	return "redirect:../main/main.do";
+    }
 }
